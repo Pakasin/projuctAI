@@ -1,12 +1,24 @@
+# Dataset (ใหญ่มาก 1GB)
 dataset.csv
 
+# Models (ไฟล์ใหญ่)
 models/
 
+# Database
+*.db
+*.sqlite
+
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
 
+# Virtual environment
 venv/
 env/
 
+# VS Code
 .vscode/
+
+# Log
+*.log

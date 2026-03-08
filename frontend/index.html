@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SQLi XDR Dashboard</title>
+<link rel="stylesheet" href="style.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="logo">X</div>
+    <div>
+      <div class="app-title">SQLi XDR &nbsp;·&nbsp; <span class="app-title-sub">Superviz25-SQL</span></div>
+      <div class="app-sub">Extended Detection & Response — SQL Injection Intelligence</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="badge-live"><span></span>LIVE</div>
+    <div class="clock" id="clock">--:--:--</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- OVERVIEW -->
+  <div class="section-label">Overview</div>
+  <div class="row row-4">
+    <div class="card c-red">
+      <div class="card-label"><span class="dot" style="background:var(--accent3)"></span>SQLi Payloads Detected</div>
+      <div class="kpi-val red" id="kpi-total">0</div>
+      <div class="delta up" id="kpi-delta">↑ +0%</div>
+      <div class="kpi-foot">vs last 24h window</div>
+    </div>
+    <div class="card c-indigo">
+      <div class="card-label"><span class="dot" style="background:var(--accent1)"></span>Attack Rate</div>
+      <div class="kpi-val indigo" id="kpi-rate">0.0</div>
+      <div class="kpi-foot">payloads / hour (avg)</div>
+      <div class="progress-wrap">
+        <div class="prog-row"><span class="prog-label">Anomaly</span><span class="prog-val" id="pct-recon">0%</span></div>
+        <div class="prog-track"><div class="prog-fill" id="bar-recon" style="background:var(--accent3);width:0%"></div></div>
+        <div class="prog-row"><span class="prog-label">Supervised</span><span class="prog-val" id="pct-exec">0%</span></div>
+        <div class="prog-track"><div class="prog-fill" id="bar-exec" style="background:var(--accent4);width:0%"></div></div>
+      </div>
+    </div>
+    <div class="card c-amber">
+      <div class="card-label"><span class="dot" style="background:var(--accent4)"></span>Top Technique</div>
+      <div class="kpi-val amber" id="kpi-top-tec">—</div>
+      <div class="kpi-foot" id="kpi-top-pct">— of total attacks</div>
+    </div>
+    <div class="card c-cyan">
+      <div class="card-label"><span class="dot" style="background:var(--accent2)"></span>Unique Templates</div>
+      <div class="kpi-val cyan" id="kpi-templates">0</div>
+      <div class="kpi-foot">query templates affected</div>
+      <div class="delta down" style="margin-top:8px;">↓ Contained</div>
+    </div>
+  </div>
+
+  <!-- THREAT LANDSCAPE -->
+  <div class="section-label">Threat Landscape</div>
+  <div class="row row-3">
+    <div class="card c-indigo">
+      <div class="card-label"><span class="dot" style="background:var(--accent1)"></span>Template → Technique Heatmap</div>
+      <div class="treemap" id="treemap"></div>
+    </div>
+    <div class="card c-amber">
+      <div class="card-label"><span class="dot" style="background:var(--accent4)"></span>Attack Technique Distribution</div>
+      <div style="display:flex;align-items:center;gap:20px;height:200px;">
+        <div style="width:150px;flex-shrink:0;position:relative;">
+          <canvas id="donutChart" width="150" height="150"></canvas>
+          <div class="donut-center-label">
+            <div id="donut-center">0</div>
+            <div class="donut-center-sub">techniques</div>
+          </div>
+        </div>
+        <div id="donut-legend" class="legend"></div>
+      </div>
+    </div>
+    <div class="card c-green">
+      <div class="card-label"><span class="dot" style="background:var(--accent5)"></span>Attack Volume Trend</div>
+      <canvas id="lineChart" height="180"></canvas>
+    </div>
+  </div>
+
+  <!-- INTELLIGENCE FEED -->
+  <div class="section-label">Intelligence Feed</div>
+  <div class="row row-3b">
+    <div class="card">
+      <div class="card-label"><span class="dot" style="background:var(--accent3)"></span>Recent SQLi Injections</div>
+      <table class="log-table">
+        <thead>
+          <tr>
+            <th>Payload</th>
+            <th>Template</th>
+            <th>Technique</th>
+            <th>Confidence</th>
+            <th>Threat</th>
+          </tr>
+        </thead>
+        <tbody id="logBody"></tbody>
+      </table>
+    </div>
+    <div class="card c-cyan">
+      <div class="card-label"><span class="dot" style="background:var(--accent2)"></span>Alerts by Attack Technique</div>
+      <div id="miniBars" style="margin-top:8px;"></div>
+    </div>
+    <div class="card c-purple">
+      <div class="card-label"><span class="dot" style="background:#a855f7"></span>Detection Layer Breakdown</div>
+      <canvas id="stageChart" height="210"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <span>SQLi XDR · Superviz25-SQL · <span id="rec-count">0</span> predictions processed</span>
+  <span id="api-status" class="api-ok">● API Connected</span>
+</div>
+
+<script src="config.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>
